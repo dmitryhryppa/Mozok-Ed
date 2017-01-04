@@ -1,2 +1,2 @@
-# Mozok-Ed
+# SceneEd
 Embeddable editor for games. Super simple.
