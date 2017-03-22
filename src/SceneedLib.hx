@@ -10,18 +10,23 @@ import cs.system.threading.Thread;
 class SceneedLib 
 {
     private static var socket:Socket;
-    private static var host:Host;
+    private static var loopThread:Thread;
     private static inline var port:Int = 3498;
+    
     public static function run():Void 
-    {
-        host = new Host("127.0.0.1");
-        
+    {   
         socket = new Socket();
-        socket.bind(host, port);
+        socket.bind(new Host("127.0.0.1"), port);
         socket.listen(1);
 
-        var loopThread:Thread = new Thread(loop);
+        loopThread = new Thread(loop);
         loopThread.Start();
+    }
+
+    public static function shutdown():Void
+    {
+        socket.close();
+        loopThread.Abort();
     }
     
     private static function loop():Void

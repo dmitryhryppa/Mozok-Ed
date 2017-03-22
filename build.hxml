@@ -1,3 +1,4 @@
 SceneedLib
+-cp client
 -cp src
 -cs output\SceenedLib

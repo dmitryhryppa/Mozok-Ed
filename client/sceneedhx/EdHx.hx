@@ -1,4 +1,5 @@
-package;
+package sceneedhx;
+
 import cpp.vm.Thread;
 import haxe.Json;
 import haxe.io.Bytes;
@@ -9,24 +10,23 @@ import sys.net.Socket;
  * ...
  * @author Dmitry Hryppa	http://themozokteam.com/
  */
-class Sceneed 
+class EdHx 
 {
     private var socket:Socket;
     
     private var allObjects:Map<String, Dynamic>;
-    private var edObjects:Array<SceneedObject>;
-    private var catching:Bool = false;
+    private var edObjects:Array<EdObject>;
+    
     public function new()
     {
         allObjects = new Map<String, Dynamic>();
-        edObjects = new Array<SceneedObject>();
+        edObjects = new Array<EdObject>();
         
         socket = new Socket();
         try {
             socket.connect(new Host("127.0.0.1"), 3498);
             
             //Thread.create(catchMessage);
-            //Thread.create(catchMessage2);
         } catch (e:Dynamic){
             trace(e);
         }
@@ -46,7 +46,7 @@ class Sceneed
             edObjects.push({name:name, properties:properties});
             
             var data:String = Json.stringify({scene:edObjects});
-            socket.output.writeByte(SceneedPackage.SCENE);
+            socket.output.writeByte(EdPackageType.SCENE);
             socket.output.writeInt16(data.length);
             socket.output.writeString(data);
         }
@@ -67,16 +67,4 @@ class Sceneed
     {
         trace(response);
     }
-}
-
-@:enum abstract SceneedPackage(Int) from Int to Int
-{
-    var SCENE:SceneedPackage = 0;
-    var UI:SceneedPackage = 1;
-}
-
-typedef SceneedObject = 
-{
-    var name:String;
-    var properties:Array<Dynamic>;
 }

@@ -4,21 +4,25 @@ import kha.Framebuffer;
 import kha.Scheduler;
 import kha.System;
 import kha.input.Mouse;
+import sceneedhx.EdHx;
 
 class Project 
 {
-    private var sc:Sceneed;
-    private var gameObj:GameObject;
+    private var sc:EdHx;
     
+    private var gameObjects:Array<GameObject>;
 	public function new() 
     {
-        gameObj = new GameObject();
+        sc = new EdHx();
         
-        sc = new Sceneed();
-        
+        gameObjects = new Array<GameObject>();
+        var index:Int = 0;
         Mouse.get().notify(function(btn:Int, x:Int, y:Int):Void
         {
-            sc.addObject(gameObj, "Some Object");
+            var go:GameObject = new GameObject();
+            gameObjects.push(go);
+            sc.addObject(go, "GameObject_" + index);
+            index++;
         }, null, null, null);
         
 		System.notifyOnRender(render);
@@ -33,8 +37,10 @@ class Project
 	private function render(framebuffer: Framebuffer): Void 
     {
 		framebuffer.g2.begin();
-        framebuffer.g2.color = gameObj.color;
-        framebuffer.g2.fillRect(gameObj.x, gameObj.y, gameObj.w, gameObj.h);
+        for (gameObject in gameObjects){
+            framebuffer.g2.color = gameObject.color;
+            framebuffer.g2.fillRect(gameObject.x, gameObject.y, gameObject.w, gameObject.h);
+        }
         framebuffer.g2.end();
 	}
 }

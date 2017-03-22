@@ -60,6 +60,7 @@
             this.Controls.Add(this.button1);
             this.Name = "EditorForm";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditorForm_FormClosing);
             this.ResumeLayout(false);
 
         }

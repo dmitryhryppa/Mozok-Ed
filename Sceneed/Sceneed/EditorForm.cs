@@ -21,5 +21,10 @@ namespace Sceneed
         {
             SceneedLib.run();
         }
+
+        private void EditorForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SceneedLib.shutdown();
+        }
     }
 }
